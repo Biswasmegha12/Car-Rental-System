@@ -1,0 +1,125 @@
+#Creating an entire car rental system involves multiple files and classes, making it too extensive for a single response. However, I can provide you with a simplified Java code snippet for a basic car rental system with a few essential functionalities. Keep in mind that this is just a starting point, and you may need to expand and enhance it based on your specific requirements
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Car {
+    private String make;
+    private String model;
+    private boolean available;
+
+    public Car(String make, String model) {
+        this.make = make;
+        this.model = model;
+        this.available = true;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void rent() {
+        available = false;
+    }
+
+    public void returnCar() {
+        available = true;
+    }
+}
+
+class CarRentalSystem {
+    private List<Car> cars;
+
+    public CarRentalSystem() {
+        this.cars = new ArrayList<>();
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+    }
+
+    public void displayAvailableCars() {
+        System.out.println("Available Cars:");
+        for (Car car : cars) {
+            if (car.isAvailable()) {
+                System.out.println(car.getMake() + " " + car.getModel());
+            }
+        }
+    }
+
+    public void rentCar(String make, String model) {
+        for (Car car : cars) {
+            if (car.getMake().equalsIgnoreCase(make) && car.getModel().equalsIgnoreCase(model) && car.isAvailable()) {
+                car.rent();
+                System.out.println("You have rented: " + car.getMake() + " " + car.getModel());
+                return;
+            }
+        }
+        System.out.println("Car not available or does not exist.");
+    }
+
+    public void returnCar(String make, String model) {
+        for (Car car : cars) {
+            if (car.getMake().equalsIgnoreCase(make) && car.getModel().equalsIgnoreCase(model)) {
+                car.returnCar();
+                System.out.println("You have returned: " + car.getMake() + " " + car.getModel());
+                return;
+            }
+        }
+        System.out.println("Car does not exist.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        CarRentalSystem carRentalSystem = new CarRentalSystem();
+
+        // Adding some sample cars
+        carRentalSystem.addCar(new Car("Toyota", "Camry"));
+        carRentalSystem.addCar(new Car("Honda", "Accord"));
+        carRentalSystem.addCar(new Car("Ford", "Focus"));
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1. Display available cars");
+            System.out.println("2. Rent a car");
+            System.out.println("3. Return a car");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    carRentalSystem.displayAvailableCars();
+                    break;
+                case 2:
+                    System.out.print("Enter make of the car you want to rent: ");
+                    String rentMake = scanner.next();
+                    System.out.print("Enter model of the car you want to rent: ");
+                    String rentModel = scanner.next();
+                    carRentalSystem.rentCar(rentMake, rentModel);
+                    break;
+                case 3:
+                    System.out.print("Enter make of the car you want to return: ");
+                    String returnMake = scanner.next();
+                    System.out.print("Enter model of the car you want to return: ");
+                    String returnModel = scanner.next();
+                    carRentalSystem.returnCar(returnMake, returnModel);
+                    break;
+                case 4:
+                    System.out.println("Exiting program. Goodbye!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }}}}
